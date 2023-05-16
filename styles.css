@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+input[type="number"] {
+    padding: 10px;
+    width: 50%;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#caja-resultado {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    display: inline-block;
+}
+
+#resultado {
+    font-size: 24px;
+    color: #333;
+}
+
+input[type="number"],
+input[type="tel"],
+input[type="text"] {
+    padding: 8px;
+    width: 60%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.etiqueta {
+  display: inline-block;
+  text-align: right;
+  width: 100px;
+}
+
+.campo {
+  display: inline-block;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* optional, adds some space between the groups */
+}
+
+.form-group label {
+    margin-right: 10px; /* optional, adds some space between the label and the input */
+}
+
+.form-group input {
+    flex-grow: 1; /* makes the input take up the remaining space */
+}
+
+
