@@ -114,15 +114,38 @@ document.getElementById("formulario").addEventListener("submit", (event) => {
   
     window.open(`https://wa.me/${telefonoMensajero}?text=${mensaje}`, "_blank");
 });
+
+/*quitar espacio en nombre cliente*/
+
+document.addEventListener('DOMContentLoaded', function() {
+  const inputs = [
+    'kilometros',
+    'nombreCliente',
+    'telefono',
+    'cantidad',
+    'producto',
+    'precio',
+    'ubicacionEnvio',
+    'costoEnvio',
+    'telefonoMensajero'
+  ];
+
+  inputs.forEach(function(inputId) {
+    const inputElement = document.getElementById(inputId);
+
+    inputElement.addEventListener('blur', function() {
+      this.value = this.value.trim();
+    });
+  });
+});
+/*quitar espacio en nombre cliente*/
   
 function crearMensaje() {
     const nombreCliente = document.getElementById("nombreCliente").value;
     const telefono = document.getElementById("telefono").value;
     const ubicacionEnvio = document.getElementById("ubicacionEnvio").value;
-    const costoEnvio = 10; // Puedes cambiar este valor al costo de envío que desees
 
-    let mensaje = `*El pedido es para:* ${nombreCliente} \n\n`;
-    mensaje += `*Pedido:*\n`;
+    let mensaje = '';
 
     let total = 0;
     carrito.forEach((item, index) => {
@@ -131,13 +154,14 @@ function crearMensaje() {
         mensaje += `${item.cantidad} x ${item.producto} de $${item.precio} = $${resultado}\n`;
     });
 
-    mensaje += `\n*Costo de envío:* $${costoEnvio}\n`;
+    mensaje += `--------------------------------\n*Costo de envío:* $${costoEnvio}\n`;
     total += costoEnvio;
     mensaje += `*Total:* $${total}\n\n`;
 
-    mensaje += `*Este pedido va para:* ${ubicacionEnvio}\n\n`;
-    mensaje += `Haz clic en el enlace para contactar al cliente y pedirle la ubicación: `;
-    mensaje += `(https://wa.me/${telefono}?text=Hola%20soy%20el%20mensajero%20de%20la%20tienda%20de%20telefonos%20*iMaxis%20EIRL*%2C%20Por%20favor%2C%20enviame%20tu%20ubicacion%20en%20tiempo%20actual)`;
+    let mensajeWhatsApp = `Hola *${nombreCliente}*, soy el mensajero de la tienda *iMaxis EIRL*, usted ordenó:\n\n${mensaje}Si todo está correcto, envíeme su ubicación en tiempo actual para hacerle la entrega:\n\n`;
+    let mensajeFinal = `El pedido es para: *${nombreCliente}*\n\n*Pedido:*\n${mensaje}\nEste pedido va para: *${ubicacionEnvio}*\n\nHaz clic en el enlace para contactar al cliente y pedirle la ubicación: `;
+    mensajeFinal += `(https://wa.me/${telefono}?text=${encodeURIComponent(mensajeWhatsApp)})`;
 
-    return mensaje;
+    return mensajeFinal;
 }
+
