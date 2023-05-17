@@ -1,30 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
     const calcularBtn = document.getElementById('calcular');
-    const kilometrosInput = document.getElementById('kilometros');
-    const resultadoDiv = document.getElementById('resultado');
 
-    calcularBtn.addEventListener('click', () => {
-        const kilometros = parseFloat(kilometrosInput.value);
-
-        if (isNaN(kilometros) || kilometros < 0) {
-            alert('Por favor, ingrese un valor válido para los kilómetros');
-        } else {
-            const costoEnvio = calcularCosto(kilometros);
-            resultadoDiv.textContent = `Costo de envío: $${costoEnvio.toFixed(2)}`;
-        }
-    });
+    calcularBtn.addEventListener('click', calcularCosto);
 });
 
-function calcularCosto(kilometros) {
-    // Aquí va la lógica para calcular el costo en función de los kilómetros
-    const tarifaPorKilometro = 1.5; // Establece una tarifa por kilómetro
-    return kilometros * tarifaPorKilometro;
+function actualizarCostoEnvio() {
+  const costoEnvioInput = document.getElementById("costoEnvio");
+  costoEnvio = parseFloat(costoEnvioInput.value);
 }
 
-
 function calcularCosto() {
-    const kilometros = parseFloat(document.getElementById("kilometros").value);
+    const kilometrosInput = document.getElementById('kilometros');
+    const resultadoDiv = document.getElementById('resultado');
+    const kilometros = parseFloat(kilometrosInput.value);
+
     let resultadoTexto = "";
+
+    if (isNaN(kilometros) || kilometros < 0) {
+        alert('Por favor, ingrese un valor válido para los kilómetros');
+        return;
+    } 
 
     if (kilometros <= 0.2) {
         resultadoTexto = "Cobrar al cliente: $50 (Muy cerca de la tienda)";
@@ -48,30 +43,44 @@ function calcularCosto() {
         resultadoTexto = "Cobrar al cliente: $500 (Es como si fueras el hipodromo )";
     } else if (kilometros > 20.1 && kilometros <= 25) {
         resultadoTexto = "Cobrar al cliente: $550 (Es como si fueras mas para a ya del hipodromo )";
-    } else if (kilometros > 25.1 && kilometros <= 30) {
+        } else if (kilometros > 25.1 && kilometros <= 30) {
         resultadoTexto = "Cobrar al cliente: $600 (Entre hipodromo y Ole de la caleta o Parque San cristobal )";
     } else if (kilometros > 30 && kilometros <= 35) {
         resultadoTexto = "Cobrar al cliente: $700 (Destacamento boca chica )";
-	}
-		else if (kilometros > 35.1) {
-		resultadoTexto = "Para esta cantidad de km, Consultar con el mensajero";
-		}
+    } else if (kilometros > 35.1) {
+        resultadoTexto = "Para esta cantidad de km, Consultar con el mensajero";
+    }
 
-    document.getElementById("resultado").innerHTML = resultadoTexto;
+    resultadoDiv.textContent = resultadoTexto;
+    actualizarCarrito();
 }
-
-document.getElementById("calcular").addEventListener("click", () => {
-    calcularCosto();
-  });
-  
 
 const carrito = [];
 const total = document.getElementById("total");
 const agregarProductoBtn = document.getElementById("agregarProducto");
 const carritoDiv = document.getElementById("carrito");
 
-
 let costoEnvio = 0;
+
+agregarProductoBtn.addEventListener("click", () => {
+  const producto = document.getElementById("producto").value;
+  const precio = parseFloat(document.getElementById("precio").value);
+  const cantidad = parseInt(document.getElementById("cantidad").value);
+
+  // Verificar si el producto ya está en el carrito
+  const productoExistente = carrito.find((item) => item.producto === producto);
+
+  if (productoExistente) {
+    // Actualizar la cantidad del producto existente
+    productoExistente.cantidad += cantidad;
+  } else {
+    // Agregar el nuevo producto al carrito
+    carrito.push({ producto, precio, cantidad });
+  }
+
+  actualizarCostoEnvio(); // Agregar esta línea
+  actualizarCarrito();
+});
 
 function actualizarCarrito() {
     carritoDiv.innerHTML = "";
@@ -92,80 +101,43 @@ function actualizarCarrito() {
     total.innerHTML = `Total: $${sumaTotal}`;
 }
 
-// Asegúrate de actualizar el carrito cada vez que cambie el costo de envío
-document.getElementById("calcular").addEventListener("click", () => {
-    calcularCosto();
-    actualizarCarrito();
-});
-
-function calcularCosto() {
-    // ... (el resto del código en la función calcularCosto se mantiene igual)
-
-    // Al final de la función calcularCosto, actualiza la variable costoEnvio:
-    const costo = parseFloat(document.getElementById("resultado").textContent.replace("Costo de envío: $", ""));
-    costoEnvio = isNaN(costo) ? 0 : costo;
-}
-
-// Asegúrate de actualizar el carrito cada vez que cambie el costo de envío
-document.getElementById("calcular").addEventListener("click", () => {
-    calcularCosto();
-    actualizarCarrito();
-});
-
-
 function eliminarProducto(index) {
   carrito.splice(index, 1);
   actualizarCarrito();
 }
 
-/*API WHATSAPP*/
-
 document.getElementById("formulario").addEventListener("submit", (event) => {
+    event.preventDefault(); // Para evitar el recargado de la página
   
     const telefonoMensajero = document.getElementById("telefonoMensajero").value;
     const mensaje = encodeURIComponent(crearMensaje());
   
     window.open(`https://wa.me/${telefonoMensajero}?text=${mensaje}`, "_blank");
-  });
+});
   
-  function crearMensaje() {
+function crearMensaje() {
     const nombreCliente = document.getElementById("nombreCliente").value;
     const telefono = document.getElementById("telefono").value;
-  
-    let mensaje = `El pedido es para *${nombreCliente}*, (https://wa.me/${telefono}?text=Hola%20soy%20el%20mensajero%20de%20imaxis%20de%20la%20tienda%20de%20telefono%2C%20enviame%20tu%20ubicacion%20en%20tiempo%20actual \n\n`;
-  
-   carrito.forEach((item, index) => {
-    const resultado = item.cantidad * item.precio;
-    mensaje += `*${item.cantidad}* x ${item.producto} de $${item.precio} = $${resultado}\n`;
-});
+    const ubicacionEnvio = document.getElementById("ubicacionEnvio").value;
+    const costoEnvio = 10; // Puedes cambiar este valor al costo de envío que desees
 
-  
-    mensaje += total.textContent;
-  
-    return mensaje;
-  }
-  
-  agregarProductoBtn.addEventListener("click", () => {
-    const producto = document.getElementById("producto").value;
-    const precio = parseFloat(document.getElementById("precio").value);
-    const cantidad = parseInt(document.getElementById("cantidad").value);
-  
-    carrito.push({ producto, precio, cantidad });
-    actualizarCarrito();
-  });
-  
-  function actualizarCarrito() {
-    carritoDiv.innerHTML = "";
-    let sumaTotal = 0;
-  
+    let mensaje = `*El pedido es para:* ${nombreCliente} \n\n`;
+    mensaje += `*Pedido:*\n`;
+
+    let total = 0;
     carrito.forEach((item, index) => {
-      const itemDiv = document.createElement("div");
-      itemDiv.innerHTML = `${item.cantidad} x ${item.producto} - $${item.precio} <button onclick="eliminarProducto(${index})">Eliminar</button>`;
-      carritoDiv.appendChild(itemDiv);
-      sumaTotal += item.precio * item.cantidad;
+        const resultado = item.cantidad * item.precio;
+        total += resultado;
+        mensaje += `${item.cantidad} x ${item.producto} de $${item.precio} = $${resultado}\n`;
     });
-  
-    total.innerHTML = `Total: $${sumaTotal}`;
-  }
-  
 
+    mensaje += `\n*Costo de envío:* $${costoEnvio}\n`;
+    total += costoEnvio;
+    mensaje += `*Total:* $${total}\n\n`;
+
+    mensaje += `*Este pedido va para:* ${ubicacionEnvio}\n\n`;
+    mensaje += `Haz clic en el enlace para contactar al cliente y pedirle la ubicación: `;
+    mensaje += `(https://wa.me/${telefono}?text=Hola%20soy%20el%20mensajero%20de%20la%20tienda%20de%20telefonos%20*iMaxis%20EIRL*%2C%20Por%20favor%2C%20enviame%20tu%20ubicacion%20en%20tiempo%20actual)`;
+
+    return mensaje;
+}

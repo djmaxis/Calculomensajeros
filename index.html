@@ -34,15 +34,21 @@
             <input type="number" id="cantidad" name="cantidad" min="1" required />
         </div>
 
-        <div class="form-group">
-            <label for="producto">Producto:</label>
-            <input type="text" id="producto" name="producto" pattern="[A-Za-z\s]+" required />
-        </div>
+       <div class="form-group">
+    <label for="producto">Producto:</label>
+    <input type="text" id="producto" name="producto" pattern="[A-Za-z0-9\s]+" required />
+</div>
+
 
         <div class="form-group">
             <label for="precio">Precio:</label>
             <input type="number" id="precio" name="precio" />
         </div>
+		
+		<div class="form-group">
+    <label for="ubicacionEnvio">Ubicación del envío:</label>
+    <input type="text" id="ubicacionEnvio" name="ubicacionEnvio" required />
+</div>
 
         <div class="form-group">
             <label for="costoEnvio">Costo envío:</label>
@@ -61,7 +67,6 @@
         <button type="submit">Enviar a mensajero</button>
     </form>
       
-    </div>
     <script src="formulario.js"></script>
 </body>
 </html>
