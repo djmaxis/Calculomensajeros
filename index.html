@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de costos de envío</title>
+    <center><title>Calculadora costos de envío</title></center>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container"></div>
-
-    <h1>Calculadora de costos de envío + API</h1>
+    <div class="container">
+        <h1>Calculadora de envío + API</h1>
+        <form id="formulario">
     
-    <form id="formulario">
-        <div class="form-group">
-            <label for="kilometros">Introduzca cantidad de kilómetros:</label>
-            <input type="number" id="kilometros" name="kilometros" step="0.1" min="0" required placeholder="Ejemplo: 3.5" />
-        </div>
+<div class="form-group">
+    <div class="kilometros-group">
+        <label for="kilometros">Introduzca cantidad de kilómetros:</label>
+        <input type="number" id="kilometros" name="kilometros" step="0.1" min="0" required placeholder="Ejemplo: 3.5" />
         <button type="button" id="calcular">Calcular</button>
-        <div id="resultado">Costo de envío: $0</div>
+        <div id="resultado">Costo de envío: $0</div> <!-- Movido aquí -->
+    </div>
+</div>
+
+
 
         <div class="form-group">
             <label for="nombreCliente">Nombre cliente:</label>
@@ -30,13 +33,13 @@
         </div>
 
         <div class="form-group">
-            <label for="cantidad">Cantidad:</label>
-            <input type="number" id="cantidad" name="cantidad" min="1" required placeholder="Ejemplo: 1" />
-        </div>
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" id="cantidad" name="cantidad" min="1" placeholder="Ejemplo: 1"/>
+		</div>
 
         <div class="form-group">
             <label for="producto">Producto:</label>
-            <input type="text" id="producto" name="producto" pattern="[A-Za-z0-9\s]+" required placeholder="Ejemplo: Samsung Galaxy S22" />
+            <input type="text" id="producto" name="producto" pattern="[A-Za-z0-9\s]+" placeholder="Ejemplo: Samsung Galaxy S22" />
         </div>
 
         <div class="form-group">
@@ -44,19 +47,30 @@
             <input type="number" id="precio" name="precio" placeholder="Ejemplo: 1200" />
         </div>
 		
+		 <div class="form-group">
+            <label for="costoEnvio">Costo envío:</label>
+            <input type="number" id="costoEnvio" name="costoEnvio" min="0" required placeholder="Ejemplo: 500" />
+		
 		<div class="form-group">
             <label for="ubicacionEnvio">Ubicación del envío:</label>
             <input type="text" id="ubicacionEnvio" name="ubicacionEnvio" required placeholder="Ejemplo: Los mina" />
         </div>
 
-        <div class="form-group">
-            <label for="costoEnvio">Costo envío:</label>
-            <input type="number" id="costoEnvio" name="costoEnvio" min="0" required placeholder="Ejemplo: 500" />
+       
         </div>
-        <button type="button" id="agregarProducto" class="agregar-producto">Agregar producto al carrito</button>
-      
-        <div id="carrito"></div>
-        <div id="total">Total: $0</div>
+			
+			
+    <div class="carrito-group">
+    <button type="button" id="agregarProducto" class="agregar-producto">Agregar producto al carrito</button>
+    <div id="carrito"></div>
+    <div id="total">Total: $0</div>
+</div>
+			
+		
+		<div class="form-group">
+    <label for="nombreMensajero">Nombre del mensajero:</label>
+    <input type="text" id="nombreMensajero" name="nombreMensajero" pattern="[A-Za-z\s]+" required placeholder="Ejemplo: Pedro Sánchez" />
+</div>
       
         <div class="form-group">
             <label for="telefonoMensajero">Número de teléfono del mensajero:</label>

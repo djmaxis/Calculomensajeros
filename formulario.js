@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const calcularBtn = document.getElementById('calcular');
 
@@ -21,29 +23,29 @@ function calcularCosto() {
         return;
     } 
 
-    if (kilometros <= 0.2) {
+    if (kilometros >= 0 && kilometros < 0.3) {
         resultadoTexto = "Cobrar al cliente: $50 (Muy cerca de la tienda)";
-    } else if (kilometros > 0.3 && kilometros <= 1.6) {
+    } else if (kilometros >= 0.3 && kilometros <= 1.6) {
         resultadoTexto = "Cobrar al cliente: $100 (Es como si fueras a la sirena de la jose contreras)";
-    } else if (kilometros > 1.7 && kilometros <= 3.0) {
+    } else if (kilometros > 1.6 && kilometros <= 3.0) {
         resultadoTexto = "Cobrar al cliente: $150 (Es como ir a gazcue o centro de los herues)";
-    } else if (kilometros > 3.1 && kilometros <= 5.0) {
+    } else if (kilometros > 3.0 && kilometros <= 5.0) {
         resultadoTexto = "Cobrar al cliente: $200 (Es como ir a agora, zona colonia, san carlos)";
-    } else if (kilometros > 5.1 && kilometros <= 8.0) {
+    } else if (kilometros > 5.0 && kilometros <= 8.0) {
         resultadoTexto = "Cobrar al cliente: $250 (Es como si fueras a la parada maria montes, eduardo brito)";
-    } else if (kilometros > 8.1 && kilometros <= 13.0) {
+    } else if (kilometros > 8.0 && kilometros <= 13.0) {
         resultadoTexto = "Cobrar al cliente: $300 (Es como si fueras a megacentro o mama tingo)";
-    } else if (kilometros > 13.1 && kilometros <= 15.0) {
+    } else if (kilometros > 13.0 && kilometros <= 15.0) {
         resultadoTexto = "Cobrar al cliente: $350 (Villa carmen en las charles)";
-    } else if (kilometros > 15.1 && kilometros <= 17) {
+    } else if (kilometros > 15.0 && kilometros <= 17) {
         resultadoTexto = "Cobrar al cliente: $400 (Es como si fuers a hainamisa )";
-    } else if (kilometros > 17.1 && kilometros <= 18.7) {
+    } else if (kilometros > 17.0 && kilometros <= 18.7) {
         resultadoTexto = "Cobrar al cliente: $450 (Es como si fueras a san luis )";
-    } else if (kilometros > 18.8 && kilometros <= 20) {
+    } else if (kilometros > 18.7 && kilometros <= 20) {
         resultadoTexto = "Cobrar al cliente: $500 (Es como si fueras el hipodromo )";
-    } else if (kilometros > 20.1 && kilometros <= 25) {
+    } else if (kilometros > 20.0 && kilometros <= 25) {
         resultadoTexto = "Cobrar al cliente: $550 (Es como si fueras mas para a ya del hipodromo )";
-        } else if (kilometros > 25.1 && kilometros <= 30) {
+        } else if (kilometros > 25.0 && kilometros <= 30) {
         resultadoTexto = "Cobrar al cliente: $600 (Entre hipodromo y Ole de la caleta o Parque San cristobal )";
     } else if (kilometros > 30 && kilometros <= 35) {
         resultadoTexto = "Cobrar al cliente: $700 (Destacamento boca chica )";
@@ -144,6 +146,8 @@ function crearMensaje() {
     const nombreCliente = document.getElementById("nombreCliente").value;
     const telefono = document.getElementById("telefono").value;
     const ubicacionEnvio = document.getElementById("ubicacionEnvio").value;
+	const telefonoMensajero = document.getElementById("telefonoMensajero").value;
+	const nombreMensajero = document.getElementById("nombreMensajero").value;
 
     let mensaje = '';
 
@@ -151,17 +155,62 @@ function crearMensaje() {
     carrito.forEach((item, index) => {
         const resultado = item.cantidad * item.precio;
         total += resultado;
-        mensaje += `${item.cantidad} x ${item.producto} de $${item.precio} = $${resultado}\n`;
+       mensaje += `${item.cantidad} x ${item.producto} - $${numberWithCommas(item.precio)} = $${numberWithCommas(resultado)}\n`;
     });
 
-    mensaje += `--------------------------------\n*Costo de envío:* $${costoEnvio}\n`;
-    total += costoEnvio;
-    mensaje += `*Total:* $${total}\n\n`;
+   mensaje += `*--------------------------------* \n*Costo de envío:* $${numberWithCommas(costoEnvio)}\n`;
+total += costoEnvio;
+mensaje += `*Total:* $${numberWithCommas(total)}\n`;
 
-    let mensajeWhatsApp = `Hola *${nombreCliente}*, soy el mensajero de la tienda *iMaxis EIRL*, usted ordenó:\n\n${mensaje}Si todo está correcto, envíeme su ubicación en tiempo actual para hacerle la entrega:\n\n`;
+    let mensajeWhatsApp = `Hola *${nombreCliente}*. Mi nombre es *${nombreMensajero}*, soy mensajero de la tienda *iMaxis EIRL*\n\nTengo que entregarte este pedido:\n\n${mensaje}Si todo está correcto, envíeme su ubicación en tiempo actual para hacerle la entrega:\n\n`;
     let mensajeFinal = `El pedido es para: *${nombreCliente}*\n\n*Pedido:*\n${mensaje}\nEste pedido va para: *${ubicacionEnvio}*\n\nHaz clic en el enlace para contactar al cliente y pedirle la ubicación: `;
-    mensajeFinal += `(https://wa.me/${telefono}?text=${encodeURIComponent(mensajeWhatsApp)})`;
+    mensajeFinal += `(https://wa.me/1${telefono}?text=${encodeURIComponent(mensajeWhatsApp)})`;
 
     return mensajeFinal;
 }
 
+
+/*mostrar los números formateados en los campos de entrada y elementos del carrito, puedes utilizar la función numberWithCommas() al actualizar los */
+document.getElementById("resultado").innerHTML = `Costo de envío: $${numberWithCommas(costoEnvio)}`;
+document.getElementById("total").innerHTML = `Total: $${numberWithCommas(total)}`;
+
+
+
+
+
+/*Funcion para formatos de comas en precios*/
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+/*Funcion para formatos de comas en precios*/
+
+
+/*primero guarda el formulario y luego limpia todos los input del formulario*/
+
+document.getElementById("formulario").addEventListener("submit", function (event) {
+   
+    event.preventDefault();
+
+
+    const formData = {
+        nombreCliente: document.getElementById("nombreCliente").value,
+        telefono: document.getElementById("telefono").value,
+        ubicacionEnvio: document.getElementById("ubicacionEnvio").value,
+
+    };
+
+  
+    const inputs = document.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = "";
+    }
+
+
+    document.getElementById("carrito").innerHTML = "";
+    document.getElementById("total").innerHTML = "Total: $0";
+
+
+    console.log("Enviar mensaje al mensajero:", formData);
+});
