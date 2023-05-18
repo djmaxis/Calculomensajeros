@@ -127,9 +127,23 @@ agregarProductoBtn.addEventListener("click", () => {
 
 
 
+window.onload = function() {
+    actualizarCarrito();
+};
+
 function actualizarCarrito() {
     carritoDiv.innerHTML = "";
     let sumaTotal = 0;
+
+    if (carrito.length === 0) {
+        const carritoVacioDiv = document.createElement("div");
+        carritoVacioDiv.innerHTML = '<i style="color: lightgrey;">Carrito está vacío</i>';
+        carritoDiv.appendChild(carritoVacioDiv);
+        total.style.display = "none"; // Oculta el elemento "Total: $0"
+        return;
+    }
+
+    total.style.display = "block"; // Muestra el elemento "Total: $0"
 
     carrito.forEach((item, index) => {
         const itemDiv = document.createElement("div");
@@ -147,9 +161,17 @@ function actualizarCarrito() {
 }
 
 function eliminarProducto(index) {
-  carrito.splice(index, 1);
-  actualizarCarrito();
+    carrito.splice(index, 1);
+    actualizarCarrito();
 }
+
+
+
+
+
+
+
+
 
 document.getElementById("formulario").addEventListener("submit", (event) => {
     event.preventDefault(); // Para evitar el recargado de la página
@@ -267,3 +289,10 @@ carrito.forEach((item, index) => {
     carritoDiv.appendChild(itemDiv);
     sumaTotal += item.precio * item.cantidad;
 });
+
+
+
+
+
+
+
