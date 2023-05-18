@@ -251,48 +251,14 @@ function numberWithCommas(x) {
 
 /*Funcion para formatos de comas en precios*/
 
+/*recargar pagin con boton nuevo pedido*/
+document.addEventListener('DOMContentLoaded', (event) => {
+  const nuevoPedidoBtn = document.getElementById('nuevoPedido');
 
-/*primero guarda el formulario y luego limpia todos los input del formulario*/
-
-document.getElementById("formulario").addEventListener("submit", function (event) {
-   
-    event.preventDefault();
-
-
-    const formData = {
-        nombreCliente: document.getElementById("nombreCliente").value,
-        telefono: document.getElementById("telefono").value,
-        ubicacionEnvio: document.getElementById("ubicacionEnvio").value,
-
-    };
-
-  
-    const inputs = document.getElementsByTagName("input");
-    for (let i = 0; i < inputs.length; i++) {
-        inputs[i].value = "";
-    }
-
-
-    document.getElementById("carrito").innerHTML = "";
-    document.getElementById("total").innerHTML = "Total: $0";
-
-
-    console.log("Enviar mensaje al mensajero:", formData);
+  if (nuevoPedidoBtn) {
+    nuevoPedidoBtn.addEventListener('click', () => {
+      location.reload();
+    });
+  }
 });
-
-carrito.forEach((item, index) => {
-    const itemDiv = document.createElement("div");
-    itemDiv.innerHTML = `<div style="display: flex; justify-content: space-between;">
-                            <div>${item.cantidad} x ${item.producto} - $${item.precio}</div> 
-                            <div><button onclick="eliminarProducto(${index})">Eliminar</button></div>
-                         </div>`;
-    carritoDiv.appendChild(itemDiv);
-    sumaTotal += item.precio * item.cantidad;
-});
-
-
-
-
-
-
 
