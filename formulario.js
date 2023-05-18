@@ -33,9 +33,9 @@ function calcularCosto() {
         resultadoTexto = "Cobrar al cliente: $200 (Es como ir a agora, zona colonia, san carlos)";
     } else if (kilometros > 5.0 && kilometros <= 8.0) {
         resultadoTexto = "Cobrar al cliente: $250 (Es como si fueras a la parada maria montes, eduardo brito)";
-    } else if (kilometros > 8.0 && kilometros <= 13.0) {
+    } else if (kilometros > 8.0 && kilometros <= 12.9) {
         resultadoTexto = "Cobrar al cliente: $300 (Es como si fueras a megacentro o mama tingo)";
-    } else if (kilometros > 13.0 && kilometros <= 15.0) {
+    } else if (kilometros > 12.9 && kilometros <= 15.0) {
         resultadoTexto = "Cobrar al cliente: $350 (Villa carmen en las charles)";
     } else if (kilometros > 15.0 && kilometros <= 17) {
         resultadoTexto = "Cobrar al cliente: $400 (Es como si fuers a hainamisa )";
@@ -64,25 +64,68 @@ const carritoDiv = document.getElementById("carrito");
 
 let costoEnvio = 0;
 
+
+
+
+
+
+
 agregarProductoBtn.addEventListener("click", () => {
-  const producto = document.getElementById("producto").value;
-  const precio = parseFloat(document.getElementById("precio").value);
-  const cantidad = parseInt(document.getElementById("cantidad").value);
+	const cantidadInput = document.getElementById("cantidad");
+  const productoInput = document.getElementById("producto");
+  const precioInput = document.getElementById("precio");
+    const costoEnvioInput = document.getElementById("costoEnvio");
+	
+ const cantidad = parseInt(cantidadInput.value);
+  if (isNaN(cantidad) || cantidad <= 0) {
+    alert('Por favor, ingrese una cantidad válida.');
+    cantidadInput.focus();
+    return;
+  }	
+  
+  if (!productoInput.value) {
+    alert('Por favor, ingrese el nombre del producto.');
+    productoInput.focus();
+    return;
+  }
+
+  const precio = parseFloat(precioInput.value);
+  if (isNaN(precio) || precio <= 0) {
+    alert('Por favor, ingrese un precio válido.');
+    precioInput.focus();
+    return;
+  }
+
+
+  const costoEnvio = parseFloat(costoEnvioInput.value);
+  if (isNaN(costoEnvio) || costoEnvio < 0) {
+    alert('Por favor, ingrese un costo de envío válido.');
+    costoEnvioInput.focus();
+    return;
+  }
 
   // Verificar si el producto ya está en el carrito
-  const productoExistente = carrito.find((item) => item.producto === producto);
+  const productoExistente = carrito.find((item) => item.producto === productoInput.value);
 
   if (productoExistente) {
     // Actualizar la cantidad del producto existente
     productoExistente.cantidad += cantidad;
   } else {
     // Agregar el nuevo producto al carrito
-    carrito.push({ producto, precio, cantidad });
+    carrito.push({ producto: productoInput.value, precio, cantidad });
   }
 
   actualizarCostoEnvio(); // Agregar esta línea
   actualizarCarrito();
 });
+
+
+
+
+
+
+
+
 
 function actualizarCarrito() {
     carritoDiv.innerHTML = "";
@@ -213,4 +256,14 @@ document.getElementById("formulario").addEventListener("submit", function (event
 
 
     console.log("Enviar mensaje al mensajero:", formData);
+});
+
+carrito.forEach((item, index) => {
+    const itemDiv = document.createElement("div");
+    itemDiv.innerHTML = `<div style="display: flex; justify-content: space-between;">
+                            <div>${item.cantidad} x ${item.producto} - $${item.precio}</div> 
+                            <div><button onclick="eliminarProducto(${index})">Eliminar</button></div>
+                         </div>`;
+    carritoDiv.appendChild(itemDiv);
+    sumaTotal += item.precio * item.cantidad;
 });

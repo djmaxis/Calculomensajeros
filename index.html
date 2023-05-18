@@ -13,8 +13,8 @@
     
 <div class="form-group">
     <div class="kilometros-group">
-        <label for="kilometros">Introduzca cantidad de kilómetros:</label>
-        <input type="number" id="kilometros" name="kilometros" step="0.1" min="0" required placeholder="Ejemplo: 3.5" />
+        <label for="kilometros">Cantidad de kilómetros:</label>
+        <input type="number" id="kilometros" name="kilometros" step="0.1" min="0" placeholder="Introduzca cantidad de kilometros" />
         <button type="button" id="calcular">Calcular</button>
         <div id="resultado">Costo de envío: $0</div> <!-- Movido aquí -->
     </div>
@@ -23,37 +23,37 @@
 
 
         <div class="form-group">
-            <label for="nombreCliente">Nombre cliente:</label>
-            <input type="text" id="nombreCliente" name="nombreCliente" pattern="[A-Za-z\s]+" required placeholder="Ejemplo: Juan Pérez" />
+            <label for="nombreCliente">Nombre:</label>
+            <input type="text" id="nombreCliente" name="nombreCliente" pattern="[A-Za-z\s]+" required placeholder="Nombre del cliente" />
         </div>
 
         <div class="form-group">
-            <label for="telefono">Número de teléfono:</label>
-            <input type="tel" id="telefono" name="telefono" pattern="\d{10}" required placeholder="Ejemplo: 8095952235 sin guioes" />
+            <label for="telefono">Número:</label>
+            <input type="tel" id="telefono" name="telefono" pattern="\d{10}" required placeholder="Numero de telefono del cliente" />
         </div>
 
         <div class="form-group">
     <label for="cantidad">Cantidad:</label>
-    <input type="number" id="cantidad" name="cantidad" min="1" placeholder="Ejemplo: 1"/>
+    <input type="number" id="cantidad" name="cantidad" min="1" placeholder=""/>
 		</div>
 
         <div class="form-group">
             <label for="producto">Producto:</label>
-            <input type="text" id="producto" name="producto" pattern="[A-Za-z0-9\s]+" placeholder="Ejemplo: Samsung Galaxy S22" />
+            <input type="text" id="producto" name="producto" pattern="[A-Za-z0-9\s]+" placeholder="" />
         </div>
 
         <div class="form-group">
             <label for="precio">Precio:</label>
-            <input type="number" id="precio" name="precio" placeholder="Ejemplo: 1200" />
+            <input type="number" id="precio" name="precio" placeholder="" />
         </div>
 		
 		 <div class="form-group">
-            <label for="costoEnvio">Costo envío:</label>
-            <input type="number" id="costoEnvio" name="costoEnvio" min="0" required placeholder="Ejemplo: 500" />
+            <label for="costoEnvio">Envío:</label>
+            <input type="number" id="costoEnvio" name="costoEnvio" min="0" required placeholder="Costo del envio" />
 		
 		<div class="form-group">
-            <label for="ubicacionEnvio">Ubicación del envío:</label>
-            <input type="text" id="ubicacionEnvio" name="ubicacionEnvio" required placeholder="Ejemplo: Los mina" />
+            <label for="ubicacionEnvio">Sector:</label>
+            <input type="text" id="ubicacionEnvio" name="ubicacionEnvio" required placeholder="Lugar del envio" />
         </div>
 
        
@@ -69,12 +69,12 @@
 		
 		<div class="form-group">
     <label for="nombreMensajero">Nombre del mensajero:</label>
-    <input type="text" id="nombreMensajero" name="nombreMensajero" pattern="[A-Za-z\s]+" required placeholder="Ejemplo: Pedro Sánchez" />
+    <input type="text" id="nombreMensajero" name="nombreMensajero" pattern="[A-Za-z\s]+" required placeholder="Pedro Sánchez" />
 </div>
       
         <div class="form-group">
             <label for="telefonoMensajero">Número de teléfono del mensajero:</label>
-            <input type="tel" id="telefonoMensajero" name="telefonoMensajero" pattern="\d{10}" required placeholder="Ejemplo: 8095952235 sin guiones" />
+            <input type="tel" id="telefonoMensajero" name="telefonoMensajero" pattern="\d{10}" required placeholder="" />
 </div>
     
 
