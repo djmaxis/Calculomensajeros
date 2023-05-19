@@ -10,7 +10,9 @@
     <div class="container">
         <h1>Calculadora de envío + API</h1>
         <form id="formulario">
-    <button class="boton" id="nuevoPedido" type="button">Nuevo pedido</button>
+			
+  <button class="boton" id="nuevoPedido" type="button">Nuevo pedido</button>
+
 
 <div class="form-group">
 	
@@ -22,13 +24,22 @@
     </div>
 </div>
 			
+			
+				
+			
+	<div style="display: flex; justify-content: space-between;">
+    <div class="form-group" style="flex: 1; margin-right: 10px;">
+        <label for="fecha">Fecha:</label>
+        <input type="text" id="fecha" readonly>
+    </div>
+    <div class="form-group" style="flex: 1; margin-left: 10px;">
+        <label for="numerofactura">Factura:</label>
+        <input type="tel" id="numerofactura" name="numerofactura" required placeholder="Numero de la factura" />
+    </div>
+</div>
 
- <div class="form-group">
-            <label for="numerofactura">Factura::</label>
-            <input type="tel" id="numerofactura" name="numerofactura" required placeholder="Numero de la factura" />
-        </div>
-
-        <div class="form-group">
+      			
+			<div class="form-group">
             <label for="nombreCliente">Nombre:</label>
             <input type="text" id="nombreCliente" name="nombreCliente" pattern="[A-Za-z\s]+" required placeholder="Nombre del cliente" />
         </div>
@@ -89,12 +100,29 @@
 
 
 			
-		
+		 <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const campoFecha = document.getElementById('fecha');
+
+      // Obtener la fecha actual
+      const fechaActual = new Date();
+      const dia = String(fechaActual.getDate()).padStart(2, '0');
+      const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
+      const anio = fechaActual.getFullYear();
+
+      // Formatear la fecha como "dd/mm/aaaa"
+      const fechaFormateada = `${dia}/${mes}/${anio}`;
+
+      // Establecer la fecha actual en el campo de entrada
+      campoFecha.value = fechaFormateada;
+    });
+  </script>
 			
 			
     </form>
 		</div>
-      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
+
     <script src="formulario.js"></script>
 </body>
 </html>

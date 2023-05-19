@@ -122,8 +122,100 @@ agregarProductoBtn.addEventListener("click", () => {
 
 
 
+function actualizarCarrito() {
+    carritoDiv.innerHTML = "";
+    let sumaTotal = 0;
+
+    if (carrito.length === 0) {
+        const carritoVacioDiv = document.createElement("div");
+        carritoVacioDiv.innerHTML = '<i style="color: #FF6666;">Carrito está vacío</i>';
+        carritoDiv.appendChild(carritoVacioDiv);
+        total.style.display = "none"; // Oculta el elemento "Total: $0"
+        return;
+    }
+
+    total.style.display = "block"; // Muestra el elemento "Total: $0"
+
+    carrito.forEach((item, index) => {
+        const itemDiv = document.createElement("div");
+        const inputCantidad = document.createElement("input");
+        inputCantidad.type = "number";
+        inputCantidad.value = item.cantidad;
+        inputCantidad.min = 0;
+        inputCantidad.onchange = function() {
+            actualizarCantidad(index, inputCantidad.value);
+        };
+
+        itemDiv.innerHTML = `<input type="number" value="${item.cantidad}"> x ${item.producto} - $${item.precio} <button onclick="eliminarProducto(${index})">Eliminar</button>`;
+        itemDiv.prepend(inputCantidad);
+        carritoDiv.appendChild(itemDiv);
+        sumaTotal += item.precio * item.cantidad;
+    });
+
+    const divCostoEnvio = document.createElement("div");
+    divCostoEnvio.innerHTML = `Costo de envío: $${costoEnvio}`;
+    carritoDiv.appendChild(divCostoEnvio);
+
+    sumaTotal += costoEnvio;
+    total.innerHTML = `Total: $${sumaTotal}`;
+}
+
+function actualizarCantidad(index, cantidad) {
+    if (cantidad == 0) {
+        eliminarProducto(index);
+    } else {
+        carrito[index].cantidad = parseInt(cantidad);
+    }
+    actualizarCarrito();
+}
 
 
+function actualizarCarrito() {
+    carritoDiv.innerHTML = "";
+    let sumaTotal = 0;
+
+    if (carrito.length === 0) {
+        const carritoVacioDiv = document.createElement("div");
+        carritoVacioDiv.innerHTML = '<i style="color: #FF6666;">Carrito está vacío</i>';
+        carritoDiv.appendChild(carritoVacioDiv);
+        total.style.display = "none"; // Oculta el elemento "Total: $0"
+        return;
+    }
+
+    total.style.display = "block"; // Muestra el elemento "Total: $0"
+
+    carrito.forEach((item, index) => {
+        const itemDiv = document.createElement("div");
+        const inputCantidad = document.createElement("input");
+        inputCantidad.type = "number";
+        inputCantidad.value = item.cantidad;
+        inputCantidad.min = "1";
+        inputCantidad.addEventListener('change', function() {
+            actualizarCantidad(index, this.value);
+        });
+
+        itemDiv.innerHTML = ` x ${item.producto} - $${item.precio} <button onclick="eliminarProducto(${index})">Eliminar</button>`;
+        itemDiv.prepend(inputCantidad);
+        carritoDiv.appendChild(itemDiv);
+        sumaTotal += item.precio * item.cantidad;
+    });
+
+    const divCostoEnvio = document.createElement("div");
+    divCostoEnvio.innerHTML = `Costo de envío: $${costoEnvio}`;
+    carritoDiv.appendChild(divCostoEnvio);
+
+    sumaTotal += costoEnvio;
+    total.innerHTML = `Total: $${sumaTotal}`;
+}
+
+function actualizarCantidad(index, cantidad) {
+    if (cantidad <= 0) {
+        eliminarProducto(index);
+    } else {
+        carrito[index].cantidad = parseInt(cantidad);
+    }
+    actualizarCarrito();
+}
 
 
 
@@ -137,7 +229,7 @@ function actualizarCarrito() {
 
     if (carrito.length === 0) {
         const carritoVacioDiv = document.createElement("div");
-        carritoVacioDiv.innerHTML = '<i style="color: lightgrey;">Carrito está vacío</i>';
+        carritoVacioDiv.innerHTML = '<i style="color: #FF6666;">Carrito está vacío</i>';
         carritoDiv.appendChild(carritoVacioDiv);
         total.style.display = "none"; // Oculta el elemento "Total: $0"
         return;
@@ -170,19 +262,6 @@ function eliminarProducto(index) {
 
 
 
-
-
-
-document.getElementById("formulario").addEventListener("submit", (event) => {
-    event.preventDefault(); // Para evitar el recargado de la página
-  
-    const telefonoMensajero = document.getElementById("telefonoMensajero").value;
-    const mensaje = encodeURIComponent(crearMensaje());
-  
-    window.open(`https://wa.me/${telefonoMensajero}?text=${mensaje}`, "_blank");
-});
-
-/*quitar espacio en nombre cliente*/
 
 document.addEventListener('DOMContentLoaded', function() {
   const inputs = [
@@ -249,16 +328,45 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-/*Funcion para formatos de comas en precios*/
+/*refrescar pagina con boton pedido nuevo*/
 
-/*recargar pagin con boton nuevo pedido*/
-document.addEventListener('DOMContentLoaded', (event) => {
-  const nuevoPedidoBtn = document.getElementById('nuevoPedido');
+document.addEventListener('DOMContentLoaded', function() {
+    var botonNuevoPedido = document.getElementById('nuevoPedido');
 
-  if (nuevoPedidoBtn) {
-    nuevoPedidoBtn.addEventListener('click', () => {
-      location.reload();
-    });
-  }
+    if (botonNuevoPedido) {
+        botonNuevoPedido.addEventListener('click', function() {
+            location.reload();
+        });
+    } else {
+        console.error('El botón de nuevo pedido no se encontró en la página.');
+    }
 });
 
+
+
+/*refrescar pagina con boton pedido nuevo*/
+
+/*Guardar pedido en txt*/
+document.getElementById("formulario").addEventListener("submit", (event) => {
+    event.preventDefault(); // Para evitar el recargado de la página
+
+    // Comprobar si el carrito está vacío
+    if (carrito.length === 0) {
+        alert('Tienes que agregar información al carrito');
+        return;
+    }
+
+    const telefonoMensajero = document.getElementById("telefonoMensajero").value;
+    const mensaje = encodeURIComponent(crearMensaje());
+
+    // Confirmación para guardar los datos del pedido
+    const confirmacion = confirm("Deseas guardar los datos del pedido");
+    if (confirmacion) {
+        const texto = new Blob([crearMensaje()], {type: 'text/plain;charset=utf-8'});
+        const numerofactura = document.getElementById("numerofactura").value;
+        const fecha = document.getElementById("fecha").value;
+        saveAs(texto, `Factura_${numerofactura}_${fecha}.txt`);
+    }
+
+    window.open(`https://wa.me/${telefonoMensajero}?text=${mensaje}`, "_blank");
+});
