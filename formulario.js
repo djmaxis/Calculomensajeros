@@ -1,5 +1,4 @@
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const calcularBtn = document.getElementById('calcular');
 
@@ -11,12 +10,17 @@ function actualizarCostoEnvio() {
   costoEnvio = parseFloat(costoEnvioInput.value);
 }
 
+
+
+
 function calcularCosto() {
     const kilometrosInput = document.getElementById('kilometros');
     const resultadoDiv = document.getElementById('resultado');
+    const costoEnvioInput = document.getElementById('costoEnvio');
     const kilometros = parseFloat(kilometrosInput.value);
 
     let resultadoTexto = "";
+    let resultadonumerico = 0;
 
     if (isNaN(kilometros) || kilometros < 0) {
         alert('Por favor, ingrese un valor válido para los kilómetros');
@@ -25,37 +29,52 @@ function calcularCosto() {
 
     if (kilometros >= 0 && kilometros < 0.3) {
         resultadoTexto = "Cobrar al cliente: $50 (Muy cerca de la tienda)";
+        resultadonumerico = 50;
     } else if (kilometros >= 0.3 && kilometros <= 1.6) {
         resultadoTexto = "Cobrar al cliente: $100 (Es como si fueras a la sirena de la jose contreras)";
+        resultadonumerico = 100;
     } else if (kilometros > 1.6 && kilometros <= 3.0) {
-        resultadoTexto = "Cobrar al cliente: $150 (Es como ir a gazcue o centro de los herues)";
+        resultadoTexto = "Cobrar al cliente: $150 (Es como ir a gazcue o centro de los heroes)";
+        resultadonumerico = 150;
     } else if (kilometros > 3.0 && kilometros <= 5.0) {
         resultadoTexto = "Cobrar al cliente: $200 (Es como ir a agora, zona colonia, san carlos)";
+        resultadonumerico = 200;
     } else if (kilometros > 5.0 && kilometros <= 8.0) {
         resultadoTexto = "Cobrar al cliente: $250 (Es como si fueras a la parada maria montes, eduardo brito)";
+        resultadonumerico = 250;
     } else if (kilometros > 8.0 && kilometros <= 12.9) {
         resultadoTexto = "Cobrar al cliente: $300 (Es como si fueras a megacentro o mama tingo)";
+        resultadonumerico = 300;
     } else if (kilometros > 12.9 && kilometros <= 15.0) {
         resultadoTexto = "Cobrar al cliente: $350 (Villa carmen en las charles)";
+        resultadonumerico = 350;
     } else if (kilometros > 15.0 && kilometros <= 17) {
-        resultadoTexto = "Cobrar al cliente: $400 (Es como si fuers a hainamisa )";
+        resultadoTexto = "Cobrar al cliente: $400 (Es como si fueras a hainamisa)";
+        resultadonumerico = 400;
     } else if (kilometros > 17.0 && kilometros <= 18.7) {
-        resultadoTexto = "Cobrar al cliente: $450 (Es como si fueras a san luis )";
+        resultadoTexto = "Cobrar al cliente: $450 (Es como si fueras a san luis)";
+        resultadonumerico = 450;
     } else if (kilometros > 18.7 && kilometros <= 20) {
-        resultadoTexto = "Cobrar al cliente: $500 (Es como si fueras el hipodromo )";
+        resultadoTexto = "Cobrar al cliente: $500 (Es como si fueras el hipodromo)";
+        resultadonumerico = 500;
     } else if (kilometros > 20.0 && kilometros <= 25) {
-        resultadoTexto = "Cobrar al cliente: $550 (Es como si fueras mas para a ya del hipodromo )";
-        } else if (kilometros > 25.0 && kilometros <= 30) {
-        resultadoTexto = "Cobrar al cliente: $600 (Entre hipodromo y Ole de la caleta o Parque San cristobal )";
+        resultadoTexto = "Cobrar al cliente: $550 (Es como si fueras mas para a ya del hipodromo)";
+        resultadonumerico = 550;
+    } else if (kilometros > 25.0 && kilometros <= 30) {
+        resultadoTexto = "Cobrar al cliente: $600 (Entre hipodromo y Ole de la caleta o Parque San cristobal)";
+        resultadonumerico = 600;
     } else if (kilometros > 30 && kilometros <= 35) {
-        resultadoTexto = "Cobrar al cliente: $700 (Destacamento boca chica )";
+        resultadoTexto = "Cobrar al cliente: $700 (Destacamento boca chica)";
+        resultadonumerico = 700;
     } else if (kilometros > 35.1) {
         resultadoTexto = "Para esta cantidad de km, Consultar con el mensajero";
     }
 
     resultadoDiv.textContent = resultadoTexto;
+    costoEnvioInput.value = resultadonumerico;
     actualizarCarrito();
 }
+
 
 const carrito = [];
 const total = document.getElementById("total");
@@ -146,10 +165,7 @@ function actualizarCarrito() {
             actualizarCantidad(index, inputCantidad.value);
         };
 
-        itemDiv.innerHTML = `<input type="number" value="${item.cantidad}"> x ${item.producto} - $${item.precio} <button onclick="eliminarProducto(${index})">Eliminar</button>`;
-        itemDiv.prepend(inputCantidad);
-        carritoDiv.appendChild(itemDiv);
-        sumaTotal += item.precio * item.cantidad;
+
     });
 
     const divCostoEnvio = document.createElement("div");
@@ -167,6 +183,16 @@ function actualizarCantidad(index, cantidad) {
         carrito[index].cantidad = parseInt(cantidad);
     }
     actualizarCarrito();
+}
+
+function eliminarProducto(index) {
+    if (index >= 0 && index < carrito.length) {
+        // Eliminar el producto del carrito
+        carrito.splice(index, 1);
+        // Actualizar el carrito y el costo de envío
+        actualizarCarrito();
+        actualizarCostoEnvio(); // Si tienes alguna función para esto
+    }
 }
 
 
@@ -194,10 +220,12 @@ function actualizarCarrito() {
             actualizarCantidad(index, this.value);
         });
 
-        itemDiv.innerHTML = ` x ${item.producto} - $${item.precio} <button onclick="eliminarProducto(${index})">Eliminar</button>`;
-        itemDiv.prepend(inputCantidad);
-        carritoDiv.appendChild(itemDiv);
-        sumaTotal += item.precio * item.cantidad;
+itemDiv.innerHTML = `${item.cantidad} "X" ${item.producto} "DE" $${item.precio} "=" $${item.cantidad * item.precio} <button onclick="eliminarProducto(${index})">Eliminar</button>`;
+itemDiv.prepend(inputCantidad);
+carritoDiv.appendChild(itemDiv);
+sumaTotal += item.precio * item.cantidad;
+
+
     });
 
     const divCostoEnvio = document.createElement("div");
@@ -207,6 +235,18 @@ function actualizarCarrito() {
     sumaTotal += costoEnvio;
     total.innerHTML = `Total: $${sumaTotal}`;
 }
+
+
+function eliminarProducto(index) {
+    if (index >= 0 && index < carrito.length) {
+        // Eliminar el producto del carrito
+        carrito.splice(index, 1);
+        // Actualizar el carrito y el costo de envío
+        actualizarCarrito();
+        actualizarCostoEnvio(); // Si tienes alguna función para esto
+    }
+}
+
 
 function actualizarCantidad(index, cantidad) {
     if (cantidad <= 0) {
@@ -261,32 +301,31 @@ function actualizarCarrito() {
         itemDiv.appendChild(cantidadInput);
 
         // Descripción del producto y precio
-        const descripcionDiv = document.createElement("div");
-        descripcionDiv.textContent = `x ${item.producto} $${numberWithCommas(item.precio * item.cantidad.toFixed(0))}`;
-        descripcionDiv.style.flexGrow = "1";
-        descripcionDiv.style.margin = "0 10px";
-        itemDiv.appendChild(descripcionDiv);
+  const descripcionDiv = document.createElement("div");
+descripcionDiv.textContent = ` X ${item.producto} DE $${item.precio} = $${item.cantidad * item.precio}`;
+descripcionDiv.style.flexGrow = "1";
+descripcionDiv.style.margin = "0 10px";
+itemDiv.appendChild(descripcionDiv);
 
-        // Botón Eliminar
-        const eliminarBtn = document.createElement("button");
-        eliminarBtn.textContent = "x";
-        eliminarBtn.style.width = "30px";
-        eliminarBtn.style.height = "30px";
-        eliminarBtn.style.border = "none";
-        eliminarBtn.style.borderRadius = "50%";
-        eliminarBtn.style.backgroundColor = "#FF6666";
-        eliminarBtn.style.color = "#FFFFFF";
-        eliminarBtn.style.fontSize = "14px";
-        eliminarBtn.style.fontWeight = "bold";
-        eliminarBtn.style.cursor = "pointer";
-        eliminarBtn.addEventListener("click", () => {
-            eliminarProducto(index);
-        });
-        itemDiv.appendChild(eliminarBtn);
+// Botón Eliminar
+const eliminarBtn = document.createElement("button");
+eliminarBtn.textContent = "X";
+eliminarBtn.style.width = "30px";
+eliminarBtn.style.height = "30px";
+eliminarBtn.style.border = "none";
+eliminarBtn.style.borderRadius = "50%";
+eliminarBtn.style.backgroundColor = "#FF6666";
+eliminarBtn.style.color = "#FFFFFF";
+eliminarBtn.style.fontSize = "14px";
+eliminarBtn.style.fontWeight = "bold";
+eliminarBtn.style.cursor = "pointer";
+eliminarBtn.addEventListener("click", () => {
+    eliminarProducto(index);
+});
 
-        carritoDiv.appendChild(itemDiv);
-
-        sumaTotal += item.precio * item.cantidad;
+itemDiv.appendChild(eliminarBtn);
+carritoDiv.appendChild(itemDiv);
+sumaTotal += item.precio * item.cantidad;
     });
 
     const divCostoEnvio = document.createElement("div");
@@ -347,11 +386,10 @@ function crearMensaje() {
     mensaje += `*--------------------------------* \n*Costo de envío:* $${numberWithCommas(costoEnvio)}\n`;
     total += costoEnvio;
     mensaje += `*Total:* $${numberWithCommas(total)}\n`;
-    mensaje += `*Fecha:* ${fecha}\n`;
-    mensaje += `*Número de Factura:* ${numerofactura}\n`;
+    
 
     let mensajeWhatsApp = `Hola *${nombreCliente}*. Mi nombre es *${nombreMensajero}*, soy mensajero de la tienda *iMaxis EIRL*\n\nTengo que entregarte este pedido:\n\n${mensaje}\nSi todo está correcto, envíame tu ubicación en tiempo actual para hacerle la entrega:\n\n`;
-    let mensajeFinal = `El pedido es para: *${nombreCliente}*\n\n*Pedido:*\n${mensaje}\nEste pedido va para: *${ubicacionEnvio}*\n\nHaz clic en el enlace para contactar al cliente y pedirle la ubicación: `;
+    let mensajeFinal = `*Fecha:* ${fecha}\n*Número de Factura:* ${numerofactura}\n\nEl pedido es para: *${nombreCliente}*\n\n*Pedido:*\n${mensaje}\nEste pedido va para: *${ubicacionEnvio}*\n\nHaz clic en el enlace para contactar al cliente y pedirle la ubicación: `;
     mensajeFinal += `(https://wa.me/1${telefono}?text=${encodeURIComponent(mensajeWhatsApp)})`;
 
     return mensajeFinal;
@@ -415,3 +453,35 @@ document.getElementById("formulario").addEventListener("submit", (event) => {
 
     window.open(`https://wa.me/${telefonoMensajero}?text=${mensaje}`, "_blank");
 });
+
+//mayuscula todo
+
+window.addEventListener('DOMContentLoaded', () => {
+    // Identificadores de los campos a los que quieres aplicar la regla
+    const ids = ['nombreCliente', 'ubicacionEnvio', 'producto', 'nombreMensajero'];
+
+    // Aplicar la regla a cada campo
+    ids.forEach(id => {
+        const campo = document.getElementById(id);
+
+        campo.addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
+    });
+
+    // Tu código existente...
+    const campoFecha = document.getElementById('fecha');
+
+    // Obtener la fecha actual
+    const fechaActual = new Date();
+    const dia = String(fechaActual.getDate()).padStart(2, '0');
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
+    const anio = fechaActual.getFullYear();
+
+    // Formatear la fecha como "dd/mm/aaaa"
+    const fechaFormateada = `${dia}/${mes}/${anio}`;
+
+    // Establecer la fecha actual en el campo de entrada
+    campoFecha.value = fechaFormateada;
+});
+
