@@ -84,8 +84,19 @@ const carritoDiv = document.getElementById("carrito");
 let costoEnvio = 0;
 
 
+/*Controlar el metodo pago*/
+$(document).ready(function(){
+    $('#metodoDePago').change(function(){
+        if($(this).val() == 'Transferencia'){
+            $('#bancoDiv').show();
+        }
+        else{
+            $('#bancoDiv').hide();
+        }
+    });
+});
 
-
+/*Controlar el metodo pago*/
 
 
 
@@ -352,7 +363,8 @@ document.addEventListener('DOMContentLoaded', function() {
     'precio',
     'ubicacionEnvio',
     'costoEnvio',
-    'telefonoMensajero'
+    'telefonoMensajero',
+	'banco'
   ];
 
   inputs.forEach(function(inputId) {
@@ -364,15 +376,35 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 /*quitar espacio en nombre cliente*/
-  
-function crearMensaje() {
-    const nombreCliente = document.getElementById("nombreCliente").value;
-    const telefono = document.getElementById("telefono").value;
-    const ubicacionEnvio = document.getElementById("ubicacionEnvio").value;
-    const telefonoMensajero = document.getElementById("telefonoMensajero").value;
-    const nombreMensajero = document.getElementById("nombreMensajero").value;
-    const fecha = document.getElementById("fecha").value;
-    const numerofactura = document.getElementById("numerofactura").value;
+ 
+document.getElementById('metodoDePago').addEventListener('change', function() {
+    const metodoDePago = this.value;
+    const bancoDiv = document.getElementById('bancoDiv');
+    if (metodoDePago === 'Transferencia') {
+        bancoDiv.style.display = 'block';
+    } else {
+        bancoDiv.style.display = 'none';
+    }
+});
+
+
+
+function rebajaSi_otroradioSi() {
+    // Obtén los elementos del formulario
+    var fecha = document.getElementById('fecha').value;
+    var saldoActual = parseFloat(document.getElementById('saldoActual').value);
+    var total = parseFloat(document.getElementById('total').innerText.replace('Total: $',''));
+    var montoAbono = parseFloat(document.getElementById('montoabono').value);
+    var fechaAbono = document.getElementById('fechaAbono').value;
+    var nombreCliente = document.getElementById('nombreCliente').value;
+    var telefonoCliente = document.getElementById('telefono').value;
+    var otroTotal = parseFloat(document.getElementById('otroTotal').innerText.replace('Total: $',''));
+    
+    var carritoDiv = document.getElementById('carrito').innerText.split(' X').slice(0,-1).join('\n');
+    var otroCarritoDiv = document.getElementById('otroCarrito').innerText.split(' X').slice(0,-1).join('\n');
+    
+    // Continúa el código como antes...
+}
 
     let mensaje = '';
 
@@ -386,7 +418,13 @@ function crearMensaje() {
     mensaje += `*--------------------------------* \n*Costo de envío:* $${numberWithCommas(costoEnvio)}\n`;
     total += costoEnvio;
     mensaje += `*Total:* $${numberWithCommas(total)}\n`;
-    
+
+    // Agregamos el método de pago al mensaje
+    if (metodoDePago === 'Transferencia') {
+        mensaje += `*Método de Pago:* Transferencia al banco ${banco}\n`;
+    } else {
+        mensaje += `*Método de Pago:* ${metodoDePago}\n`;
+    }
 
     let mensajeWhatsApp = `Hola *${nombreCliente}*. Mi nombre es *${nombreMensajero}*, soy mensajero de la tienda *iMaxis EIRL*\n\nTengo que entregarte este pedido:\n\n${mensaje}\nSi todo está correcto, envíame tu ubicación en tiempo actual para hacerle la entrega:\n\n`;
     let mensajeFinal = `*Fecha:* ${fecha}\n*Número de Factura:* ${numerofactura}\n\nEl pedido es para: *${nombreCliente}*\n\n*Pedido:*\n${mensaje}\nEste pedido va para: *${ubicacionEnvio}*\n\nHaz clic en el enlace para contactar al cliente y pedirle la ubicación: `;
@@ -394,6 +432,8 @@ function crearMensaje() {
 
     return mensajeFinal;
 }
+
+
 
 
 
