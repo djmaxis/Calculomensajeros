@@ -49,9 +49,18 @@
             <input type="tel" id="telefono" name="telefono" pattern="\d{10}" required placeholder="Numero de telefono del cliente" />
         </div>
 
+			 <div class="form-group">
+            <label for="costoEnvio">Envío:</label>
+            <input type="number" id="costoEnvio" name="costoEnvio" min="0" required placeholder="Costo del envio" />
 		
+		<div class="form-group">
+            <label for="ubicacionEnvio">Sector:</label>
+            <input type="text" id="ubicacionEnvio" name="ubicacionEnvio" required placeholder="Lugar del envio" />
+        </div>
 
-      
+       
+        </div>	
+			
 			
     <div class="form-group">
     <label for="cantidad">Cantidad:</label>
@@ -61,23 +70,37 @@
 </div>
 
 
+<div class="form-group">
+    <label for="precio">Precio:</label>
+    <input type="number" id="precio" name="precio" placeholder="" />
+</div>
+
+
+<div class="row">
+    <div class="col">
         <div class="form-group">
-            <label for="precio">Precio:</label>
-            <input type="number" id="precio" name="precio" placeholder="" />
+            <label for="metodo-pago">Método de Pago:</label>
+            <div class="custom-select">
+                <select id="metodo-pago" name="metodo-pago">
+                    <option value="efectivo">Efectivo</option>
+                    <option value="transferencia">Transferencia</option>
+                    <option value="credito">Crédito</option>
+                </select>
+            </div>
         </div>
-		
-	  <div class="form-group">
-        <label for="metodoDePago">Método de Pago:</label>
-        <select id="metodoDePago" name="metodoDePago" required>
-            <option value="Efectivo">Efectivo</option>
-            <option value="Transferencia">Transferencia</option>
-            <option value="Credito">Crédito</option>
-        </select>
     </div>
-    <div class="form-group" id="bancoDiv" style="display:none;">
-        <label for="banco">Banco:</label>
-        <input type="text" id="banco" name="banco" required placeholder="Nombre del banco" />
+</div>    <div class="col">
+        <div class="form-group">
+            <label for="nombrebanco">Nombre del Banco:</label>
+            <input type="text" id="nombrebanco" name="nombrebanco" pattern="[A-Za-z0-9\s]+" placeholder="" />
+        </div>
     </div>
+
+
+       
+
+
+
 			
 			
     <div class="carrito-group">
@@ -127,13 +150,9 @@
 	<!--no borrar porque danara funcion guardado txt-->
 	<!--no borrar porque danara funcion guardado txt-->
 	   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
-	
-	
 <!--no borrar porque danara funcion guardado txt-->
 	<!--no borrar porque danara funcion guardado txt-->
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 
     <script src="formulario.js"></script>
 </body>

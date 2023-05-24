@@ -84,19 +84,8 @@ const carritoDiv = document.getElementById("carrito");
 let costoEnvio = 0;
 
 
-/*Controlar el metodo pago*/
-$(document).ready(function(){
-    $('#metodoDePago').change(function(){
-        if($(this).val() == 'Transferencia'){
-            $('#bancoDiv').show();
-        }
-        else{
-            $('#bancoDiv').hide();
-        }
-    });
-});
 
-/*Controlar el metodo pago*/
+
 
 
 
@@ -363,8 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
     'precio',
     'ubicacionEnvio',
     'costoEnvio',
-    'telefonoMensajero',
-	'banco'
+    'telefonoMensajero'
   ];
 
   inputs.forEach(function(inputId) {
@@ -376,19 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 /*quitar espacio en nombre cliente*/
- 
-document.getElementById('metodoDePago').addEventListener('change', function() {
-    const metodoDePago = this.value;
-    const bancoDiv = document.getElementById('bancoDiv');
-    if (metodoDePago === 'Transferencia') {
-        bancoDiv.style.display = 'block';
-    } else {
-        bancoDiv.style.display = 'none';
-    }
-});
-
-
-
+  
 function crearMensaje() {
     const nombreCliente = document.getElementById("nombreCliente").value;
     const telefono = document.getElementById("telefono").value;
@@ -397,8 +373,8 @@ function crearMensaje() {
     const nombreMensajero = document.getElementById("nombreMensajero").value;
     const fecha = document.getElementById("fecha").value;
     const numerofactura = document.getElementById("numerofactura").value;
-    const metodoDePago = document.getElementById("metodoDePago").value;
-    const banco = document.getElementById("banco").value;
+    const metodoPago = document.getElementById("metodo-pago").value;
+    const nombreBanco = document.getElementById("nombrebanco").value;
 
     let mensaje = '';
 
@@ -413,21 +389,21 @@ function crearMensaje() {
     total += costoEnvio;
     mensaje += `*Total:* $${numberWithCommas(total)}\n`;
 
-    // Agregamos el método de pago al mensaje
-    if (metodoDePago === 'Transferencia') {
-        mensaje += `*Método de Pago:* Transferencia al banco ${banco}\n`;
+    let mensajeWhatsApp = `Hola *${nombreCliente}*. Mi nombre es *${nombreMensajero}*, soy mensajero de la tienda *iMaxis EIRL*\n\nTengo que entregarte este pedido:\n\n${mensaje}\nSi todo está correcto, envíame tu ubicación en tiempo actual para hacerle la entrega:\n\n`;
+
+    let mensajeFinal = `*Fecha:* ${fecha}\n*Número de Factura:* #${numerofactura}\n\nEl pedido es para: *${nombreCliente}*\n\n*Pedido:*\n${mensaje}\nEste pedido va para: *${ubicacionEnvio}*\n\n`;
+
+    if (metodoPago === "transferencia") {
+        mensajeFinal += `*Método de Pago:* ${metodoPago} al ${nombreBanco}\n\n`;
     } else {
-        mensaje += `*Método de Pago:* ${metodoDePago}\n`;
+          mensajeFinal += `*Te pagara en:* ${metodoPago}\n\n`;
     }
 
-    let mensajeWhatsApp = `Hola *${nombreCliente}*. Mi nombre es *${nombreMensajero}*, soy mensajero de la tienda *iMaxis EIRL*\n\nTengo que entregarte este pedido:\n\n${mensaje}\nSi todo está correcto, envíame tu ubicación en tiempo actual para hacerle la entrega:\n\n`;
-    let mensajeFinal = `*Fecha:* ${fecha}\n*Número de Factura:* ${numerofactura}\n\nEl pedido es para: *${nombreCliente}*\n\n*Pedido:*\n${mensaje}\nEste pedido va para: *${ubicacionEnvio}*\n\nHaz clic en el enlace para contactar al cliente y pedirle la ubicación: `;
+    mensajeFinal += `Haz clic en el enlace para contactar al cliente y pedirle la ubicación: `;
     mensajeFinal += `(https://wa.me/1${telefono}?text=${encodeURIComponent(mensajeWhatsApp)})`;
 
     return mensajeFinal;
 }
-
-
 
 
 
@@ -519,3 +495,21 @@ window.addEventListener('DOMContentLoaded', () => {
     campoFecha.value = fechaFormateada;
 });
 
+
+//script para el select banco
+window.addEventListener("DOMContentLoaded", function() {
+        var metodoPagoSelect = document.getElementById("metodo-pago");
+        var nombreBancoGroup = document.getElementById("nombrebanco");
+
+        if (metodoPagoSelect.value === "efectivo") {
+            nombreBancoGroup.style.display = "none";
+        }
+
+        metodoPagoSelect.addEventListener("change", function() {
+            if (this.value === "transferencia") {
+                nombreBancoGroup.style.display = "block";
+            } else {
+                nombreBancoGroup.style.display = "none";
+            }
+        });
+    });

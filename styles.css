@@ -128,3 +128,38 @@ button:hover {
   border-radius: 50%;
   cursor: pointer;
 }
+
+       .custom-select {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .custom-select select {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+        color: #333;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        border: 1px solid #ccc;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        cursor: pointer;
+    }
+
+    .custom-select::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid #666;
+}
